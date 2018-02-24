@@ -48,5 +48,27 @@ class TodoViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    // MARK - Add new todos
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "Add new Todo", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "New Todo", style: .default) { (action) in
+            
+            print("Success!")
+            
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new Todo"
+            print(alertTextField)
+        }
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
