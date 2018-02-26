@@ -11,13 +11,19 @@ import UIKit
 class TodoViewController: UITableViewController {
     
     var itemArray = ["Finish Show", "Buy Netflix Month", "Download Movie"]
+    
+    let userDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // use persistent itemArray
+        if let items = userDefaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     }
     
-    // MARK - Tableview Datasour Methods
+    // MARK - Tableview Datasource Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
@@ -34,7 +40,6 @@ class TodoViewController: UITableViewController {
     
     // MARK - TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // print(itemArray[indexPath.row])
         
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             
@@ -59,6 +64,9 @@ class TodoViewController: UITableViewController {
         let action = UIAlertAction(title: "New Todo", style: .default) { (action) in
             
             self.itemArray.append(textField.text!)
+            
+            // persist itemArray
+            self.userDefaults.set(self.itemArray, forKey: "TodoListArray")
             
             self.tableView.reloadData()
             
