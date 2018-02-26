@@ -12,6 +12,7 @@
 		4746392420418ABC0071356A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4746392220418ABC0071356A /* Main.storyboard */; };
 		4746392620418ABC0071356A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4746392520418ABC0071356A /* Assets.xcassets */; };
 		4746392920418ABC0071356A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4746392720418ABC0071356A /* LaunchScreen.storyboard */; };
+		47463931204410080071356A /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47463930204410080071356A /* TodoItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4746392520418ABC0071356A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4746392820418ABC0071356A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4746392A20418ABC0071356A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47463930204410080071356A /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,39 @@
 		4746391D20418ABC0071356A /* Todo iOS 11 */ = {
 			isa = PBXGroup;
 			children = (
+				47463932204410320071356A /* Data Model */,
 				4746391E20418ABC0071356A /* AppDelegate.swift */,
-				4746392020418ABC0071356A /* TodoViewController.swift */,
-				4746392220418ABC0071356A /* Main.storyboard */,
+				474639332044106A0071356A /* Controllers */,
+				47463934204410790071356A /* Views */,
 				4746392520418ABC0071356A /* Assets.xcassets */,
 				4746392720418ABC0071356A /* LaunchScreen.storyboard */,
 				4746392A20418ABC0071356A /* Info.plist */,
 			);
 			path = "Todo iOS 11";
+			sourceTree = "<group>";
+		};
+		47463932204410320071356A /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				47463930204410080071356A /* TodoItem.swift */,
+			);
+			path = "Data Model";
+			sourceTree = "<group>";
+		};
+		474639332044106A0071356A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4746392020418ABC0071356A /* TodoViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		47463934204410790071356A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4746392220418ABC0071356A /* Main.storyboard */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4746392120418ABC0071356A /* TodoViewController.swift in Sources */,
+				47463931204410080071356A /* TodoItem.swift in Sources */,
 				4746391F20418ABC0071356A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
