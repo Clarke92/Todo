@@ -10,7 +10,7 @@ import UIKit
 
 class TodoViewController: UITableViewController {
     
-    let itemArray = ["Finish Show", "Buy Netflix Month", "Download Movie"]
+    var itemArray = ["Finish Show", "Buy Netflix Month", "Download Movie"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,17 +52,25 @@ class TodoViewController: UITableViewController {
     // MARK - Add new todos
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
+        var textField = UITextField()
+        
         let alert = UIAlertController(title: "Add new Todo", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "New Todo", style: .default) { (action) in
             
-            print("Success!")
+            self.itemArray.append(textField.text!)
+            
+            self.tableView.reloadData()
             
         }
         
         alert.addTextField { (alertTextField) in
+            
             alertTextField.placeholder = "Create new Todo"
-            print(alertTextField)
+            
+            textField = alertTextField
+            
+            print("Closure")
         }
         
         alert.addAction(action)
