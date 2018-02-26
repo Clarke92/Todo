@@ -18,24 +18,8 @@ class TodoViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let newItem = TodoItem()
-        newItem.title = "Buy Netflix Month"
-        itemArray.append(newItem)
         
-        let newItem2 = TodoItem()
-        newItem2.title = "Buy Netflix Month"
-        itemArray.append(newItem2)
-        
-        let newItem3 = TodoItem()
-        newItem3.title = "Buy Netflix Month"
-        itemArray.append(newItem3)
-        
-        
-        // use persistent itemArray
-//        if let items = userDefaults.array(forKey: "TodoListArray") as? [TodoItem] {
-//            itemArray = items
-//        }
+        loadTodos()
     }
     
     
@@ -120,10 +104,28 @@ class TodoViewController: UITableViewController {
             // write data
             try data.write(to: self.dataFilePath!)
         } catch {
-            print("ERROR! Problem occured while encoding todos\n")
+            print("ERROR! Problem occured while encoding todos.\n")
         }
         
         self.tableView.reloadData()
+    }
+    
+    
+    func loadTodos() {
+        
+        // Decode todos
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            
+            let decoder = PropertyListDecoder()
+            
+            do {
+                itemArray = try decoder.decode([TodoItem].self, from: data)
+            } catch {
+                print("ERROR! Problem occured while decoding todos.\n")
+            }
+            
+        }
+        
     }
     
 }

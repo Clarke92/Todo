@@ -8,8 +8,8 @@
 
 import Foundation
 
-// Encodables must have standard data types
-class TodoItem: Encodable {
+// Encodables/Decodables must have standard data types
+class TodoItem: Encodable, Decodable {
     var title: String = ""
     var done: Bool = false
     
