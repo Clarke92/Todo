@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoViewController: UITableViewController {
     
     var itemArray = [TodoItem]()
     
-    // file path
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory,
-                                                in: .userDomainMask).first?.appendingPathComponent("Todos.plist")
+    // get the persistent Container
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // file path
+        let dataFilePath = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask).first?.appendingPathComponent("Todos.plist")
+        
+        print(dataFilePath!)
         
         loadTodos()
     }
@@ -54,6 +61,9 @@ class TodoViewController: UITableViewController {
     // MARK - TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
+        
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
@@ -71,8 +81,11 @@ class TodoViewController: UITableViewController {
         
         let action = UIAlertAction(title: "New Todo", style: .default) { (action) in
             
-            let newItem = TodoItem()
+            // from saveContext()
+            // rows in table (NSManagedObject)
+            let newItem = TodoItem(context: self.context)
             newItem.title = textField.text!
+            newItem.done = false
             
             self.itemArray.append(newItem)
             
@@ -97,14 +110,10 @@ class TodoViewController: UITableViewController {
     // persist data changes
     func saveItems() {
         
-        let encoder = PropertyListEncoder()
-        
         do {
-            let data = try encoder.encode(self.itemArray)
-            // write data
-            try data.write(to: self.dataFilePath!)
+            try context.save()
         } catch {
-            print("ERROR! Problem occured while encoding todos.\n")
+            print("ERROR! Problem occured while saving context.\n")
         }
         
         self.tableView.reloadData()
@@ -112,20 +121,16 @@ class TodoViewController: UITableViewController {
     
     
     func loadTodos() {
+
+        let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
         
-        // Decode todos
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            
-            let decoder = PropertyListDecoder()
-            
-            do {
-                itemArray = try decoder.decode([TodoItem].self, from: data)
-            } catch {
-                print("ERROR! Problem occured while decoding todos.\n")
-            }
-            
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("ERROR! Problem occured while fetching data.\n")
         }
         
+
     }
     
 }
