@@ -13,6 +13,7 @@
 		4746392620418ABC0071356A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4746392520418ABC0071356A /* Assets.xcassets */; };
 		4746392920418ABC0071356A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4746392720418ABC0071356A /* LaunchScreen.storyboard */; };
 		47463958204448010071356A /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 47463956204448010071356A /* DataModel.xcdatamodeld */; };
+		4746395C20457E430071356A /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4746395B20457E430071356A /* CategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4746392820418ABC0071356A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4746392A20418ABC0071356A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47463957204448010071356A /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		4746395B20457E430071356A /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		474639332044106A0071356A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4746395B20457E430071356A /* CategoryViewController.swift */,
 				4746392020418ABC0071356A /* TodoViewController.swift */,
 			);
 			path = Controllers;
@@ -163,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4746395C20457E430071356A /* CategoryViewController.swift in Sources */,
 				4746392120418ABC0071356A /* TodoViewController.swift in Sources */,
 				47463958204448010071356A /* DataModel.xcdatamodeld in Sources */,
 				4746391F20418ABC0071356A /* AppDelegate.swift in Sources */,

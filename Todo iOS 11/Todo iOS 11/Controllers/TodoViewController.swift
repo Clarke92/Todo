@@ -13,6 +13,16 @@ class TodoViewController: UITableViewController {
     
     var itemArray = [TodoItem]()
     
+    var selectedCategory: Category? {
+        
+        // triggered, when selectedCategory gets a value
+        didSet {
+            
+            loadTodos()
+            
+        }
+    }
+    
     // get the persistent Container
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -21,12 +31,11 @@ class TodoViewController: UITableViewController {
         super.viewDidLoad()
         
         // file path
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory,
-                                                    in: .userDomainMask).first?.appendingPathComponent("Todos.plist")
+//        let dataFilePath = FileManager.default.urls(for: .documentDirectory,
+//                                                    in: .userDomainMask).first?.appendingPathComponent("Todos.plist")
+//
+//
         
-        print(dataFilePath!)
-        
-        loadTodos()
     }
     
     
@@ -81,11 +90,12 @@ class TodoViewController: UITableViewController {
         
         let action = UIAlertAction(title: "New Todo", style: .default) { (action) in
             
-            // from saveContext()
-            // rows in table (NSManagedObject)
+            // From saveContext()
+            // Rows in table (NSManagedObject)
             let newItem = TodoItem(context: self.context)
             newItem.title = textField.text!
             newItem.done = false
+            newItem.parentCategory = self.selectedCategory
             
             self.itemArray.append(newItem)
             
@@ -107,7 +117,8 @@ class TodoViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // persist data changes
+    // MARK: - CRUD
+    // Persist data changes
     func saveItems() {
         
         do {
@@ -120,9 +131,19 @@ class TodoViewController: UITableViewController {
     }
     
     
-    func loadTodos() {
-
-        let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+    func loadTodos(with request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest(), predicate: NSPredicate? = nil) {
+        
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let additionalPredicate = predicate {
+            
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+            
+        } else {
+            
+            request.predicate = categoryPredicate
+            
+        }
         
         do {
             itemArray = try context.fetch(request)
@@ -130,8 +151,38 @@ class TodoViewController: UITableViewController {
             print("ERROR! Problem occured while fetching data.\n")
         }
         
+        tableView.reloadData()
+    }
+}
 
+// MARK: - Searchbar
+extension TodoViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        let request: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
+        
+        // [cd] Deactivate case and diacritic sensitivity
+        let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        // Sort via title
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadTodos(with: request, predicate: predicate)
     }
     
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            
+            loadTodos()
+            
+            // Async. dismiss searchBar
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }
+
 
